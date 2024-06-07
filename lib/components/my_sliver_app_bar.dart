@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pizza_app/pages/cart_page.dart';
 
 class MySliverAppBar extends StatelessWidget {
   const MySliverAppBar({super.key, required this.child, required this.title});
@@ -13,7 +14,9 @@ class MySliverAppBar extends StatelessWidget {
       expandedHeight: 340,
       floating: false,
       pinned: true,
-      actions: [IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart))],
+      actions: [
+        IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage(),)), icon: const Icon(Icons.shopping_cart))
+      ],
       backgroundColor: Theme.of(context).colorScheme.background,
       title: Text("Fast Food"),
       foregroundColor: Theme.of(context).colorScheme.inversePrimary,

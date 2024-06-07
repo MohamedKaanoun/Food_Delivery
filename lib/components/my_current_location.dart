@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pizza_app/models/restaurant.dart';
+import 'package:provider/provider.dart';
 
 class MyCurrentLocation extends StatelessWidget {
-  const MyCurrentLocation({super.key});
+  MyCurrentLocation({super.key});
+  final TextEditingController textController = TextEditingController();
+
   void openLocationSearchBox(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Your Location"),
-              content: TextField(
-                decoration:
-                    const InputDecoration(hintText: "Search an address.."),
+              title: const Text("Your Location"),
+              content: const TextField(
+                decoration: InputDecoration(hintText: "Enter an address.."),
               ),
               actions: [
                 //cancel button
@@ -21,7 +24,14 @@ class MyCurrentLocation extends StatelessWidget {
                 //save
 
                 MaterialButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    String newAddress = textController.text;
+                    context
+                        .read<Restaurant>()
+                        .updateDeliveryAddress(newAddress);
+                    Navigator.pop(context);
+                    textController.clear();
+                  },
                   child: const Text("Save"),
                 )
               ],
@@ -44,11 +54,9 @@ class MyCurrentLocation extends StatelessWidget {
             child: Row(
               children: [
                 //address
-                Text(
-                  "Nahda Settat",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      fontWeight: FontWeight.bold),
+                Consumer<Restaurant>(
+                  builder: (context, restaurant, child) =>
+                      Text(restaurant.deliveryAddress),
                 ),
                 // drop down menu
                 const Icon(Icons.keyboard_arrow_down_rounded)

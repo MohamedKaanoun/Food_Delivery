@@ -8,6 +8,7 @@ import 'package:pizza_app/components/my_sliver_app_bar.dart';
 import 'package:pizza_app/components/my_tab_bar.dart';
 import 'package:pizza_app/models/Food.dart';
 import 'package:pizza_app/models/restaurant.dart';
+import 'package:pizza_app/pages/food_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,7 +62,12 @@ class _HomePageState extends State<HomePage>
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final food = categoryMenu[index];
-          return MyFoodTile(food: food, onTap: () {});
+          return MyFoodTile(
+              food: food,
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FoodPage(food: food))));
         },
       );
     }).toList();
@@ -80,7 +86,7 @@ class _HomePageState extends State<HomePage>
               children: [
                 const Divider(indent: 25, endIndent: 25, color: Colors.black),
                 // Current location
-                const MyCurrentLocation(),
+                MyCurrentLocation(),
                 // Description box
                 MyDescriptionBox(),
               ],
